@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { defineCustomElements, CreditCardInput, CardExpirationInput, CardFormContainer, CardHolderInput, CvvInput, ErrorMessage } from 'credit-card-components-react';
+import { Formik, Form } from 'formik';
+
+defineCustomElements();
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Formik
+        initialValues={{}}
+        enableReinitialize={true}
+        // validationSchema={createCaseSchema}
+        onSubmit={(values) => console.log(values)}
+      >
+        {({ errors, touched, dirty, values, setFieldValue, submitForm }) => (
+        <Form>
+        <CardFormContainer>
+          <CreditCardInput slot="credit-card" onChanged={(event) => console.log(event)}></CreditCardInput>
+          <CardExpirationInput slot="expiration"></CardExpirationInput>
+          <CvvInput slot="cvv"></CvvInput>
+          <CardHolderInput slot="card-holder"></CardHolderInput>
+        </CardFormContainer>
+        <div className='ErrorContainer'>
+          <ErrorMessage>The card number is required</ErrorMessage>
+        </div>
+        </Form>)}
+      </Formik>
     </div>
   );
 }
-
-export default App;
+export default App
