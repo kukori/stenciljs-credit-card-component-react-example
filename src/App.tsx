@@ -29,19 +29,19 @@ function App() {
         validationSchema={creditCardSchema}
         onSubmit={(values) => console.log(values)}
       >
-        {({ errors, touched, dirty, values, setFieldValue, submitForm}) => (
+        {({ errors, touched, setTouched, values, setFieldValue}) => (
         <Form>
           <CardFormContainer>
-            <CreditCardInput slot="credit-card" name="creditCard" value={values.creditCard} onBlur={(event) => console.log(event)} onChanged={(event) => setFieldValue('creditCard', event.target.value)} error={errors.creditCard ? true : false}></CreditCardInput>
-            <CardExpirationInput slot="expiration" name="cardExpiration" value={values.cardExpiration} onChanged={(event) => setFieldValue('cardExpiration', event.target.value)} error={errors.cardExpiration ? true : false}></CardExpirationInput>
-            <CvvInput slot="cvv" name="cvv" value={values.cvv} onChanged={(event) => setFieldValue('cvv', event.target.value)} error={errors.cvv ? true : false}></CvvInput>
-            <CardHolderInput slot="card-holder" name="cardHolder" value={values.cardHolder} onChanged={(event) => setFieldValue('cardHolder', event.target.value)} error={errors.cardHolder ? true : false}></CardHolderInput>
+            <CreditCardInput slot="credit-card" name="creditCard" value={values.creditCard} onBlur={() => setTouched({ ...touched, creditCard: true })} onChanged={(event) => setFieldValue('creditCard', event.target.value)} error={errors.creditCard && touched.creditCard ? true : false}></CreditCardInput>
+            <CardExpirationInput slot="expiration" name="cardExpiration" value={values.cardExpiration} onBlur={() => setTouched({ ...touched, cardExpiration: true })} onChanged={(event) => setFieldValue('cardExpiration', event.target.value)} error={errors.cardExpiration && touched.cardExpiration ? true : false}></CardExpirationInput>
+            <CvvInput slot="cvv" name="cvv" value={values.cvv} onBlur={() => setTouched({ ...touched, cvv: true })} onChanged={(event) => setFieldValue('cvv', event.target.value)} error={errors.cvv && touched.cvv ? true : false}></CvvInput>
+            <CardHolderInput slot="card-holder" name="cardHolder" value={values.cardHolder} onBlur={() => setTouched({ ...touched, cardHolder: true })} onChanged={(event) => setFieldValue('cardHolder', event.target.value)} error={errors.cardHolder && touched.cardHolder ? true : false}></CardHolderInput>
           </CardFormContainer>
           <div className='ErrorContainer'>
-            { errors.creditCard && <ErrorMessage>{errors.creditCard}</ErrorMessage>}
-            { errors.cardExpiration && <ErrorMessage>{errors.cardExpiration}</ErrorMessage>}
-            { errors.cvv && <ErrorMessage>{errors.cvv}</ErrorMessage>}
-            { errors.cardHolder && <ErrorMessage>{errors.cardHolder}</ErrorMessage>}
+            { errors.creditCard && touched.creditCard && <ErrorMessage>{errors.creditCard}</ErrorMessage>}
+            { errors.cardExpiration && touched.cardExpiration && <ErrorMessage>{errors.cardExpiration}</ErrorMessage>}
+            { errors.cvv && touched.cvv && <ErrorMessage>{errors.cvv}</ErrorMessage>}
+            { errors.cardHolder && touched.cardHolder && <ErrorMessage>{errors.cardHolder}</ErrorMessage>}
           </div>
         </Form>)}
       </Formik>
